@@ -1,0 +1,55 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/dq-types",
+    "crates/dq-engine",
+    "crates/dq-quant",
+    "crates/dq-privacy",
+    "crates/dq-auth",
+    "crates/dq-e2e",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.84"
+license = "UNLICENSED"
+publish = false
+
+[workspace.dependencies]
+dq-types = { path = "crates/dq-types" }
+dq-engine = { path = "crates/dq-engine" }
+dq-quant = { path = "crates/dq-quant" }
+dq-privacy = { path = "crates/dq-privacy" }
+dq-auth = { path = "crates/dq-auth" }
+
+x25519-dalek = { version = "3", features = ["static_secrets", "zeroize"] }
+ed25519-dalek = { version = "3", features = ["zeroize"] }
+chacha20poly1305 = { version = "0.11", default-features = false }
+blake3 = "1.8"
+zeroize = { version = "1.8", features = ["derive"] }
+subtle = "2.6"
+rand_core = "0.10"
+getrandom = "0.4"
+
+proptest = "1.5"
+serde_json = "1"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+
+[workspace.lints.clippy]
+cast_possible_truncation = "warn"
+unwrap_used = "warn"
+
+[profile.release]
+# Consensus code: an overflow must halt every replica identically, never wrap.
+overflow-checks = true
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+
+[profile.bench]
+inherits = "release"
+debug = true
