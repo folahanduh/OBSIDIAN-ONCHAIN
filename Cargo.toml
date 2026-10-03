@@ -1,12 +1,12 @@
 [workspace]
 resolver = "2"
 members = [
-    "crates/dq-types",
-    "crates/dq-engine",
-    "crates/dq-quant",
-    "crates/dq-privacy",
-    "crates/dq-auth",
-    "crates/dq-e2e",
+    "crates/tenebra-types",
+    "crates/tenebra-engine",
+    "crates/tenebra-quant",
+    "crates/tenebra-privacy",
+    "crates/tenebra-auth",
+    "crates/tenebra-e2e",
 ]
 
 [workspace.package]
@@ -17,11 +17,11 @@ license = "UNLICENSED"
 publish = false
 
 [workspace.dependencies]
-dq-types = { path = "crates/dq-types" }
-dq-engine = { path = "crates/dq-engine" }
-dq-quant = { path = "crates/dq-quant" }
-dq-privacy = { path = "crates/dq-privacy" }
-dq-auth = { path = "crates/dq-auth" }
+tenebra-types = { path = "crates/tenebra-types" }
+tenebra-engine = { path = "crates/tenebra-engine" }
+tenebra-quant = { path = "crates/tenebra-quant" }
+tenebra-privacy = { path = "crates/tenebra-privacy" }
+tenebra-auth = { path = "crates/tenebra-auth" }
 
 x25519-dalek = { version = "3", features = ["static_secrets", "zeroize"] }
 ed25519-dalek = { version = "3", features = ["zeroize"] }

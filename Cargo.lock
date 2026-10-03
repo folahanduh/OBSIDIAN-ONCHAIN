@@ -194,62 +194,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "dq-auth"
-version = "0.1.0"
-dependencies = [
- "dq-engine",
- "dq-types",
- "ed25519-dalek",
-]
-
-[[package]]
-name = "dq-e2e"
-version = "0.1.0"
-dependencies = [
- "dq-auth",
- "dq-engine",
- "dq-privacy",
- "dq-quant",
- "dq-types",
- "ed25519-dalek",
- "getrandom 0.4.3",
-]
-
-[[package]]
-name = "dq-engine"
-version = "0.1.0"
-dependencies = [
- "dq-types",
- "proptest",
-]
-
-[[package]]
-name = "dq-privacy"
-version = "0.1.0"
-dependencies = [
- "blake3",
- "chacha20poly1305",
- "dq-types",
- "getrandom 0.4.3",
- "rand_core 0.10.1",
- "subtle",
- "x25519-dalek",
- "zeroize",
-]
-
-[[package]]
-name = "dq-quant"
-version = "0.1.0"
-dependencies = [
- "proptest",
- "serde_json",
-]
-
-[[package]]
-name = "dq-types"
-version = "0.1.0"
-
-[[package]]
 name = "ed25519"
 version = "3.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -655,6 +599,62 @@ dependencies = [
  "rustix",
  "windows-sys",
 ]
+
+[[package]]
+name = "tenebra-auth"
+version = "0.1.0"
+dependencies = [
+ "ed25519-dalek",
+ "tenebra-engine",
+ "tenebra-types",
+]
+
+[[package]]
+name = "tenebra-e2e"
+version = "0.1.0"
+dependencies = [
+ "ed25519-dalek",
+ "getrandom 0.4.3",
+ "tenebra-auth",
+ "tenebra-engine",
+ "tenebra-privacy",
+ "tenebra-quant",
+ "tenebra-types",
+]
+
+[[package]]
+name = "tenebra-engine"
+version = "0.1.0"
+dependencies = [
+ "proptest",
+ "tenebra-types",
+]
+
+[[package]]
+name = "tenebra-privacy"
+version = "0.1.0"
+dependencies = [
+ "blake3",
+ "chacha20poly1305",
+ "getrandom 0.4.3",
+ "rand_core 0.10.1",
+ "subtle",
+ "tenebra-types",
+ "x25519-dalek",
+ "zeroize",
+]
+
+[[package]]
+name = "tenebra-quant"
+version = "0.1.0"
+dependencies = [
+ "proptest",
+ "serde_json",
+]
+
+[[package]]
+name = "tenebra-types"
+version = "0.1.0"
 
 [[package]]
 name = "typenum"

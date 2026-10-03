@@ -23,7 +23,7 @@ jobs:
       - run: cargo test --workspace --release
       - name: Golden vectors are up to date
         run: |
-          DQ_BLESS=1 cargo test -p dq-quant --release --test golden
+          TENEBRA_BLESS=1 cargo test -p tenebra-quant --release --test golden
           git diff --exit-code testdata/
 
   python:

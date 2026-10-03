@@ -3,8 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from darkquant_bt.backtester import Config, MarketState, Order, Trade, run
-from darkquant_bt.strategies import VwapReversion
+from tenebra_bt.backtester import Config, MarketState, Order, Trade, run
+from tenebra_bt.strategies import VwapReversion
 
 GOLDEN = Path(__file__).resolve().parents[2] / "testdata" / "quant_golden.json"
 

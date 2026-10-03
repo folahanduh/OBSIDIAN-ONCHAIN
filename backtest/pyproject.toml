@@ -3,9 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "darkquant-bt"
+name = "tenebra-bt"
 version = "0.1.0"
-description = "DarkQuant backtester: integer-exact mirror of the on-chain quant engine."
+description = "Tenebra backtester: integer-exact mirror of the on-chain quant engine."
 requires-python = ">=3.11"
 dependencies = []
 
@@ -13,7 +13,7 @@ dependencies = []
 dev = ["pytest>=8"]
 
 [tool.setuptools]
-packages = ["darkquant_bt"]
+packages = ["tenebra_bt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

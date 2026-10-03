@@ -1,4 +1,4 @@
-# DarkQuant — Architecture
+# Tenebra — Architecture
 
 Status: **v0 core libraries**. Implemented and tested: matching engine, quant
 indicators + dynamic fees, privacy/compliance primitives, session-key auth, and a
@@ -41,13 +41,13 @@ Crates:
 
 | Crate | Role | Key types |
 |---|---|---|
-| `dq-types` | integer primitives, market spec | `Price`, `Qty`, `MarketSpec` |
-| `dq-engine` | CLOB matching | `OrderBook`, `OrderRequest`, `Event` |
-| `dq-quant` | VWAP/TWAP/σ/fees, `no_std` | `RollingVwap`, `TwapOracle`, `EwmaVol`, `FeeSchedule` |
-| `dq-privacy` | viewing keys, notes, sealed orders, ordering log | `ViewingSeed`, `EncryptedNote`, `seal`/`open`, `OrderingLog` |
-| `dq-auth` | master/session keys, replay protection | `Authorizer`, `SessionGrant`, `ActionEnvelope` |
-| `dq-e2e` | full-pipeline tests | — |
-| `backtest/` | Python mirror + backtester | `darkquant_bt` |
+| `tenebra-types` | integer primitives, market spec | `Price`, `Qty`, `MarketSpec` |
+| `tenebra-engine` | CLOB matching | `OrderBook`, `OrderRequest`, `Event` |
+| `tenebra-quant` | VWAP/TWAP/σ/fees, `no_std` | `RollingVwap`, `TwapOracle`, `EwmaVol`, `FeeSchedule` |
+| `tenebra-privacy` | viewing keys, notes, sealed orders, ordering log | `ViewingSeed`, `EncryptedNote`, `seal`/`open`, `OrderingLog` |
+| `tenebra-auth` | master/session keys, replay protection | `Authorizer`, `SessionGrant`, `ActionEnvelope` |
+| `tenebra-e2e` | full-pipeline tests | — |
+| `backtest/` | Python mirror + backtester | `tenebra_bt` |
 
 ---
 
@@ -70,7 +70,7 @@ Crates:
 
 ---
 
-## 3. Matching engine (`dq-engine`)
+## 3. Matching engine (`tenebra-engine`)
 
 **Structure.** Per side, `BTreeMap<u64, Level>` where asks key on `price` and bids
 on `!price`, so the best level on both sides is `first_entry()` and the cross test
@@ -104,7 +104,7 @@ implementation (2 000 random sequences × ≤120 ops, every op validated with a 
 structural invariant check), + a quantity-conservation property. Three injected
 mutants (FOK boundary, STP mode, capacity off-by-one) are all caught.
 
-**Latency** (`cargo run -p dq-engine --release --example bench`, single thread,
+**Latency** (`cargo run -p tenebra-engine --release --example bench`, single thread,
 2 M mixed ops, ~280 k resting orders, shared cloud container):
 
 | p50 | p90 | p99 | p99.9 | throughput |
@@ -119,7 +119,7 @@ tick-indexed array ladder around mid (O(1) level access, cache-friendly).
 
 ---
 
-## 4. Quant layer (`dq-quant`, mirrored in `backtest/darkquant_bt`)
+## 4. Quant layer (`tenebra-quant`, mirrored in `backtest/tenebra_bt`)
 
 Fixed point: `S = 10^9`. Prices `p` in ticks, quantities `q` in lots.
 
@@ -164,13 +164,13 @@ where σ rises roughly 7× and the taker fee moves 250 → 887 → 1000 (cap) pi
 
 ---
 
-## 5. Privacy & compliance (`dq-privacy`)
+## 5. Privacy & compliance (`tenebra-privacy`)
 
 ### 5.1 Key hierarchy
 
 ```
 Master key (Ed25519, cold)      — signs grants, withdrawals, revocations, VK registration
-Session keys (Ed25519, hot)     — sign trading actions only (dq-auth)
+Session keys (Ed25519, hot)     — sign trading actions only (tenebra-auth)
 ViewingSeed (32 B)              — never leaves the user
   └─ ivk_e = BLAKE3-derive("…epoch viewing key v1", seed ‖ account ‖ e)  (X25519)
 ```
@@ -250,7 +250,7 @@ auctions per 50–100 ms window, uniform-price clearing — candidate v1 feature
 
 ---
 
-## 7. Session-key authorization (`dq-auth`)
+## 7. Session-key authorization (`tenebra-auth`)
 
 `SessionGrant` (master-signed): `{chain_id, account, session_pk, markets[≤32],
 max_order_notional, can_place, can_cancel, valid_from, expires_at (TTL ≤ 7 d),
@@ -289,8 +289,8 @@ Boundaries:
 | Order-id probing | uniform `NotFound` on foreign cancel | `cancel` | — |
 | TWAP manipulation | time-weighted, zero weight for intra-timestamp prints | `TwapOracle` | sustained multi-batch manipulation (costly) |
 | σ manipulation to move fees | per-sample return clamp; fixed-cadence sampling of mid | `EwmaVol` | |
-| Session key theft | no withdraw capability; scoped; TTL; revocation | `dq-auth` | trading losses within cap until revoked |
-| Signature replay (cross-chain/type/grant) | chain_id, domain tags, grant binding, replay window | `dq-auth` | — |
+| Session key theft | no withdraw capability; scoped; TTL; revocation | `tenebra-auth` | trading losses within cap until revoked |
+| Signature replay (cross-chain/type/grant) | chain_id, domain tags, grant binding, replay window | `tenebra-auth` | — |
 | Viewing key over-disclosure | per-epoch hardened keys; disclosure bounded to range | `keys.rs` | disclosed epochs are permanently readable by recipient |
 | Ciphertext tampering / plaintext substitution | AEAD + commitment recheck (key-committing) | `note.rs` | — |
 | Low-order X25519 keys | `was_contributory` on every DH; `is_valid` at registration | `kdf`, `keys.rs` | — |
@@ -302,7 +302,7 @@ Boundaries:
 
 ## 9. Roadmap
 
-1. **`dq-node` sequencer** — batch loop wiring the crates (as in `dq-e2e`), spot
+1. **`tenebra-node` sequencer** — batch loop wiring the crates (as in `tenebra-e2e`), spot
    balance ledger with hold-on-rest, epoch-key presence check, state root
    (sparse Merkle over balances + note commitments), signed batch headers.
 2. **Risk engine** — pre-trade balance/margin checks, then perps: mark price from
@@ -310,7 +310,7 @@ Boundaries:
 3. **Gateway** — tokio + `tokio-tungstenite`; binary frames carrying sealed
    envelopes; per-IP/per-account token buckets; SPSC handoff to the sequencer.
 4. **Terminal** — React/TS; WebCrypto Ed25519 session keys; X25519 sealing in
-   WASM (compile `dq-privacy` + `dq-auth` encoders to `wasm32`, one source of truth).
+   WASM (compile `tenebra-privacy` + `tenebra-auth` encoders to `wasm32`, one source of truth).
 5. **Settlement** — DA posting of (ordering head, state root, notes); L1/L2
    bridge contract with withdrawal proofs; forced-inclusion path.
 6. **Hyperliquid** — integrate as an external liquidity/hedging venue via its API

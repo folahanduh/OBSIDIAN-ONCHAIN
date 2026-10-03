@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from darkquant_bt import (
+from tenebra_bt import (
     SCALE,
     EwmaVol,
     FeeSchedule,

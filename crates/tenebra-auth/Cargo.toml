@@ -1,0 +1,15 @@
+[package]
+name = "tenebra-auth"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+tenebra-types.workspace = true
+tenebra-engine.workspace = true
+ed25519-dalek.workspace = true
+
+[lints]
+workspace = true
