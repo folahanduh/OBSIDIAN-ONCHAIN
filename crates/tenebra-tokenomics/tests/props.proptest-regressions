@@ -1,0 +1,7 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc 42d3f714eaa99a918cacfe2fcaadbec80872698285ac8b4048460114a43573b2 # shrinks to ops = [Stake(3, 823903097), Stake(1, 850750305), Reward(1442008323), Stake(3, 179997964), Reward(5360519901), Unstake(3, 331052288), Unstake(3, 299626742), Reward(5944307631), Stake(3, 120838598), Stake(0, 702321089), Reward(261941532), Reward(2098047946), Stake(3, 274853213), Stake(0, 171456781), Reward(1382314978), Stake(2, 351208155), Stake(0, 496348394), Stake(0, 7033944), Stake(0, 35179223), Unstake(1, 28923439), Unstake(2, 23871789), Unstake(0, 40661124), Stake(0, 524942346), Stake(0, 137972758), Unstake(0, 647045), Stake(0, 7581363), Stake(0, 26034520), Stake(0, 134514967), Stake(0, 1), Stake(0, 1), Stake(0, 1), Stake(0, 1), Stake(0, 1)]

@@ -653,6 +653,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "tenebra-tokenomics"
+version = "0.1.0"
+dependencies = [
+ "proptest",
+ "serde_json",
+]
+
+[[package]]
 name = "tenebra-types"
 version = "0.1.0"
 
