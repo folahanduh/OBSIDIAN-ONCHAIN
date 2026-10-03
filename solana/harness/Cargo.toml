@@ -1,0 +1,24 @@
+# Native runtime tests for the guard program. Its own workspace and lockfile:
+# solana-program-test needs newer crates (blake3 ≥ 1.8) than Solana's SBF
+# compiler can build, so it must not share the program's lockfile.
+[workspace]
+resolver = "2"
+members = ["."]
+
+[package]
+name = "tenebra-guard-harness"
+version = "0.1.0"
+edition = "2021"
+license = "UNLICENSED"
+publish = false
+
+[dependencies]
+tenebra-guard = { path = "../programs/tenebra-guard" }
+tenebra-tokenomics = { path = "../../crates/tenebra-tokenomics" }
+anchor-lang = "0.31.1"
+
+[dev-dependencies]
+solana-program-test = "2.3.13"
+solana-sdk = "2.3"
+spl-token = { version = "7", features = ["no-entrypoint"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }

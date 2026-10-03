@@ -4,7 +4,16 @@ Low-latency, privacy-preserving on-chain trading core: deterministic CLOB,
 integer-exact quant indicators with volatility-adaptive fees, Zcash-style scoped
 viewing keys for exchange compliance, and sealed (front-running-resistant) order flow.
 
-Design, formulas and threat model: **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**.
+Tenebra is planned as a **sovereign Layer 1** whose native coin pays gas
+(burned), secures consensus through staking, and backs a built-in private
+trading venue.
+
+- **[docs/L1.md](docs/L1.md)**: chain architecture (CometBFT + Rust app), native
+  coin mechanics, roadmap.
+- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**: the private order-book
+  engine, privacy and compliance design.
+- **[docs/TOKENOMICS.md](docs/TOKENOMICS.md)**: the parked Solana router; its
+  maths carries over to the L1.
 
 ## Layout
 
@@ -16,7 +25,14 @@ crates/
   tenebra-privacy    epoch viewing keys, encrypted fill notes, sealed orders, ordering log
   tenebra-auth       master/session keys, scoped grants, replay window
   tenebra-e2e        end-to-end pipeline test
-backtest/            Python backtester (tenebra_bt); bit-exact mirror of tenebra-quant
+  tenebra-tokenomics fee discount, staking, real-yield and revenue-split maths (no_std)
+  tenebra-chain      L1 state machine: native coin, gas burn, staking, slashing
+  tenebra-node       ABCI app for CometBFT, devnet setup, CLI wallet
+scripts/devnet.sh    run a local N-validator chain (see docs/L1.md §0)
+solana/              (parked) Solana router program + harness
+  programs/tenebra-guard   Anchor program: swap guard, staking, distribution
+  harness/                 runs the program in a local Solana runtime (own lockfile)
+backtest/            Python (tenebra_bt): backtester, tokenomics mirror, revenue simulator
 testdata/            Rust-generated golden vectors shared with Python
 ```
 
@@ -29,7 +45,12 @@ cargo run -p tenebra-engine --release --example bench   # matching latency
 
 cd backtest && pip install -e ".[dev]" && python -m pytest -q
 python -m tenebra_bt [trades.csv]                       # run reference strategy
+python -m tenebra_bt.revenue_sim --daily-volume 10000000 # fee/yield projection
+
+cd solana && cargo test -p tenebra-guard --lib          # guard layout rules
+cd solana/harness && cargo test                         # program + SPL Token, local runtime
 ```
 
-Regenerate golden vectors after an intentional quant change:
-`TENEBRA_BLESS=1 cargo test -p tenebra-quant --test golden` (then re-run the Python tests).
+Regenerate golden vectors after an intentional maths change:
+`TENEBRA_BLESS=1 cargo test -p tenebra-quant -p tenebra-tokenomics --test golden`
+(then re-run the Python tests).

@@ -1,5 +1,8 @@
 # Tenebra — Architecture
 
+> This document covers the private order-book core. The Solana router, guard
+> program and token mechanics are in [TOKENOMICS.md](TOKENOMICS.md).
+
 Status: **v0 core libraries**. Implemented and tested: matching engine, quant
 indicators + dynamic fees, privacy/compliance primitives, session-key auth, and a
 Python backtester with bit-exact parity. Not yet built: sequencer node, risk
