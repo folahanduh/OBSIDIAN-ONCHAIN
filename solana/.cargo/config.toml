@@ -1,0 +1,4 @@
+# Resolve dependencies to versions that build with the program's declared
+# rust-version (Solana's SBF compiler is older than stable Rust).
+[resolver]
+incompatible-rust-versions = "fallback"

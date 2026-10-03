@@ -1,0 +1,13 @@
+[toolchain]
+anchor_version = "0.31.1"
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+tenebra_guard = "HueCcTwE36KfZhqbopNCN7ckisnPH24meaSmEK29h3KC"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
