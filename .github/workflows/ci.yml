@@ -23,8 +23,46 @@ jobs:
       - run: cargo test --workspace --release
       - name: Golden vectors are up to date
         run: |
-          TENEBRA_BLESS=1 cargo test -p tenebra-quant --release --test golden
+          TENEBRA_BLESS=1 cargo test -p tenebra-quant -p tenebra-tokenomics --release --test golden
           git diff --exit-code testdata/
+
+  solana-program:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: solana
+    env:
+      RUSTFLAGS: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - uses: dtolnay/rust-toolchain@1.84
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: solana
+      - run: cargo +stable fmt --all --check
+      # Same rustc as Solana's SBF platform tools: catches dependency drift
+      # (e.g. edition-2024 crates) before it breaks `anchor build`.
+      - run: cargo +1.84 check --locked -p tenebra-guard
+      - run: cargo +stable test --locked -p tenebra-guard --lib
+
+  solana-harness:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: solana/harness
+    env:
+      RUSTFLAGS: ""
+      RUST_LOG: error
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: solana/harness
+      - run: cargo test
 
   python:
     runs-on: ubuntu-latest
