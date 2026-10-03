@@ -8,6 +8,7 @@ members = [
     "crates/tenebra-auth",
     "crates/tenebra-e2e",
     "crates/tenebra-tokenomics",
+    "crates/tenebra-chain",
 ]
 
 [workspace.package]
@@ -24,6 +25,7 @@ tenebra-quant = { path = "crates/tenebra-quant" }
 tenebra-privacy = { path = "crates/tenebra-privacy" }
 tenebra-auth = { path = "crates/tenebra-auth" }
 tenebra-tokenomics = { path = "crates/tenebra-tokenomics" }
+tenebra-chain = { path = "crates/tenebra-chain" }
 
 x25519-dalek = { version = "3", features = ["static_secrets", "zeroize"] }
 ed25519-dalek = { version = "3", features = ["zeroize"] }

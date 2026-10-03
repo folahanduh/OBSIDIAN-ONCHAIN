@@ -610,6 +610,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "tenebra-chain"
+version = "0.1.0"
+dependencies = [
+ "blake3",
+ "ed25519-dalek",
+ "proptest",
+ "tenebra-tokenomics",
+]
+
+[[package]]
 name = "tenebra-e2e"
 version = "0.1.0"
 dependencies = [
