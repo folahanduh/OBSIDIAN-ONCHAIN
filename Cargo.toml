@@ -9,6 +9,7 @@ members = [
     "crates/tenebra-e2e",
     "crates/tenebra-tokenomics",
     "crates/tenebra-chain",
+    "crates/tenebra-node",
 ]
 
 [workspace.package]

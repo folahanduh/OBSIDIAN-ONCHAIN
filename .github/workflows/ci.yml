@@ -64,6 +64,20 @@ jobs:
           workspaces: solana/harness
       - run: cargo test
 
+  devnet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+      - run: go install github.com/cometbft/cometbft/cmd/cometbft@v0.38.26
+      - run: echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+      # 4 CometBFT validators + 4 app processes; a transfer must commit and burn its fee.
+      - run: scripts/devnet-smoke.sh 4
+
   python:
     runs-on: ubuntu-latest
     defaults:

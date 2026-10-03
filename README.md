@@ -27,6 +27,8 @@ crates/
   tenebra-e2e        end-to-end pipeline test
   tenebra-tokenomics fee discount, staking, real-yield and revenue-split maths (no_std)
   tenebra-chain      L1 state machine: native coin, gas burn, staking, slashing
+  tenebra-node       ABCI app for CometBFT, devnet setup, CLI wallet
+scripts/devnet.sh    run a local N-validator chain (see docs/L1.md §0)
 solana/              (parked) Solana router program + harness
   programs/tenebra-guard   Anchor program: swap guard, staking, distribution
   harness/                 runs the program in a local Solana runtime (own lockfile)

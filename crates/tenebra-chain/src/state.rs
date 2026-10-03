@@ -328,6 +328,9 @@ impl State {
     pub fn delegation(&self, delegator: Address, validator: Address) -> Option<&Delegation> {
         self.delegations.get(&(delegator, validator))
     }
+    pub fn validators(&self) -> impl Iterator<Item = &Validator> {
+        self.validators.values()
+    }
     pub fn unbondings(&self) -> impl Iterator<Item = &Unbonding> {
         self.unbondings.values()
     }
