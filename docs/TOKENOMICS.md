@@ -1,5 +1,9 @@
 # Tenebra Router — Guard Program & Token Mechanics (Solana)
 
+> **Parked.** The project is now a sovereign L1 with its own native coin
+> (see [L1.md](L1.md)). This Solana design stays in the repo for reference;
+> its maths crate (`tenebra-tokenomics`) carries over to the L1.
+
 Status: **v1 core implemented and tested natively**; not yet deployed or audited.
 
 | Piece | Where | Tests |

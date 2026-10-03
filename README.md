@@ -4,14 +4,16 @@ Low-latency, privacy-preserving on-chain trading core: deterministic CLOB,
 integer-exact quant indicators with volatility-adaptive fees, Zcash-style scoped
 viewing keys for exchange compliance, and sealed (front-running-resistant) order flow.
 
-Two products share this repo:
+Tenebra is planned as a **sovereign Layer 1** whose native coin pays gas
+(burned), secures consensus through staking, and backs a built-in private
+trading venue.
 
-- **Tenebra Router (Solana)**: an on-chain guard around Jupiter swaps (approved
-  router, enforced slippage limit and fee, sanctions denylist) plus staking with
-  real-yield revenue sharing and volume-driven buyback.
-  See **[docs/TOKENOMICS.md](docs/TOKENOMICS.md)**.
-- **Tenebra core**: the private, low-latency order-book engine.
-  See **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**.
+- **[docs/L1.md](docs/L1.md)**: chain architecture (CometBFT + Rust app), native
+  coin mechanics, roadmap.
+- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**: the private order-book
+  engine, privacy and compliance design.
+- **[docs/TOKENOMICS.md](docs/TOKENOMICS.md)**: the parked Solana router; its
+  maths carries over to the L1.
 
 ## Layout
 
@@ -24,7 +26,8 @@ crates/
   tenebra-auth       master/session keys, scoped grants, replay window
   tenebra-e2e        end-to-end pipeline test
   tenebra-tokenomics fee discount, staking, real-yield and revenue-split maths (no_std)
-solana/
+  tenebra-chain      L1 state machine: native coin, gas burn, staking, slashing
+solana/              (parked) Solana router program + harness
   programs/tenebra-guard   Anchor program: swap guard, staking, distribution
   harness/                 runs the program in a local Solana runtime (own lockfile)
 backtest/            Python (tenebra_bt): backtester, tokenomics mirror, revenue simulator
